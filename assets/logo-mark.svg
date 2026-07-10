@@ -1,0 +1,11 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="steadySun" x1="16" y1="46" x2="64" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F27059"></stop>
+      <stop offset="55%" stop-color="#C85C8E"></stop>
+      <stop offset="100%" stop-color="#9B8FD4"></stop>
+    </linearGradient>
+  </defs>
+  <path d="M16 46 A24 24 0 0 1 64 46" fill="url(#steadySun)" opacity="0.92"></path>
+  <line x1="8" y1="46" x2="72" y2="46" stroke="#1E2A3A" stroke-width="0.8" opacity="0.15"></line>
+</svg>

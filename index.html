@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fast Track - Deck</title>
+<link rel="stylesheet" href="_ds/the-hours-design-system-fb01919a-f688-4bd8-9f00-cb38461d1c6a/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/the-hours-design-system-fb01919a-f688-4bd8-9f00-cb38461d1c6a/tokens/colors.css">
+<link rel="stylesheet" href="_ds/the-hours-design-system-fb01919a-f688-4bd8-9f00-cb38461d1c6a/tokens/typography.css">
+<link rel="stylesheet" href="_ds/the-hours-design-system-fb01919a-f688-4bd8-9f00-cb38461d1c6a/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/the-hours-design-system-fb01919a-f688-4bd8-9f00-cb38461d1c6a/tokens/effects.css">
+<link rel="stylesheet" href="_ds/the-hours-design-system-fb01919a-f688-4bd8-9f00-cb38461d1c6a/styles.css">
+<style>
+  deck-stage:not(:defined){ visibility:hidden; }
+
+  section { font-family:var(--font-sans); overflow:hidden; position:relative; }
+
+  /* ── Color tier backgrounds (dark → bright) ─────────────── */
+  .t-deep   { background:#0D1018; color:#fff; }
+  .t-navy   { background:#1E2A3A; color:#fff; }
+  .t-soft   { background:#2A3548; color:#fff; }
+  .t-dawn   { background:linear-gradient(170deg,#1E2A3A 0%,#2D2444 35%,#5C3055 58%,#B8604A 78%,#F5B08A 93%,#FFF3E8 100%); color:#fff; }
+  .t-cream  { background:#FFF9F3; color:var(--navy); }
+  .t-warm   { background:linear-gradient(160deg,#FFF9F3 0%,#FFDCC8 25%,#FFB088 50%,#FF8A75 72%,#B8AEE6 100%); color:var(--navy); }
+  .t-rise   { background:linear-gradient(135deg,#F27059 0%,#FFB088 50%,#B8AEE6 100%); color:var(--navy); }
+
+  /* ── Layout helpers ──────────────────────────────────────── */
+  .grain { position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:128px;z-index:0; }
+
+  .inner {
+    position:relative;z-index:1;width:100%;height:100%;
+    padding:96px 120px;box-sizing:border-box;
+    display:flex;flex-direction:column;
+  }
+  .inner.mid    { justify-content:center; }
+  .inner.center { align-items:center;justify-content:center;text-align:center; }
+
+  .ey { font-size:24px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.38;margin-bottom:28px;flex-shrink:0; }
+  .ey.warm { opacity:.55;color:var(--coral-deep); }
+
+  /* Ghost section number - clipped so it never overflows */
+  .ghost-num {
+    position:absolute;right:80px;bottom:0;
+    font-size:280px;font-weight:300;line-height:1;
+    opacity:.06;pointer-events:none;z-index:0;
+    letter-spacing:-.04em;clip-path:inset(0);
+  }
+
+  /* White card */
+  .card {
+    background:#fff;
+    border:1px solid var(--ink-100);
+    border-radius:20px;
+    padding:40px;
+    box-shadow:var(--shadow-md);
+  }
+
+  /* ── Entrance animations ────────────────────────────────── */
+  @media (prefers-reduced-motion:no-preference){
+    [data-deck-active] .au  { animation:aup .55s var(--ease-calm) both; }
+    [data-deck-active] .d1  { animation-delay:.08s; }
+    [data-deck-active] .d2  { animation-delay:.18s; }
+    [data-deck-active] .d3  { animation-delay:.28s; }
+    [data-deck-active] .d4  { animation-delay:.40s; }
+    [data-deck-active] .d5  { animation-delay:.52s; }
+    [data-deck-active] .d6  { animation-delay:.64s; }
+    @keyframes aup { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+  }
+</style>
+<style id="deck-stage-print-page">@page { size: 1920px 1080px; margin: 0; } @media print { html, body { margin: 0 !important; padding: 0 !important; background: none !important; overflow: visible !important; height: auto !important; } * { -webkit-print-color-adjust: exact; print-color-adjust: exact; } *, *::before, *::after { animation-delay: -99s !important; animation-duration: .001s !important; animation-iteration-count: 1 !important; animation-fill-mode: both !important; animation-play-state: running !important; transition-duration: 0s !important; } #deck-editor-toolbar { display: none !important; } }</style></head>
+<body>
+<deck-stage width="1920" height="1080" style="--deck-rail-w: 120px;">
+
+
+<!-- ═══════════════════════════════════════════════════════
+     01 - COVER
+════════════════════════════════════════════════════════ -->
+<section class="t-deep" data-label="F0.1 - Cover" data-screen-label="01 F0.1 - Cover" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="0">
+  <div class="grain"></div>
+  <div class="inner center">
+    <img class="au" src="assets/logo-mark-white.svg" style="width:72px;height:72px;margin-bottom:48px;">
+    <h1 class="au d1" style="font-size: 64px; font-weight: 300; letter-spacing: -0.01em; line-height: 1.15; margin: 0px 0px 26px;">AI Leadership Program</h1>
+    <div class="au d2" style="font-size: 22px; font-weight: 300; opacity: 0.4; letter-spacing: 0.22em; text-transform: uppercase;">Fast Track</div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     02 - OVERVIEW (five segments)
+════════════════════════════════════════════════════════ -->
+<section class="t-navy" data-label="F0.2 - Overview" data-screen-label="02 F0.2 - Overview" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="1">
+  <div class="grain"></div>
+  <div class="inner" style="flex-direction:row;gap:80px;align-items:center;">
+    <div style="flex:0 0 380px;">
+      <div class="au ey" style="">Fast Track<br>Five segments</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;">
+      <div class="au d1" style="display:flex;gap:28px;align-items:baseline;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.08);">
+        <span style="font-size: 18px; font-weight: 300; opacity: 0.35; width: 40px; flex-shrink: 0; letter-spacing: 0.06em;">01</span>
+        <div>
+          <div style="font-size: 28px; font-weight: 400;">Workflows</div>
+          <div style="font-size: 21px; font-weight: 300; opacity: 0.4; margin-top: 5px;">Interview, map, and safe-proof</div>
+        </div>
+      </div>
+      <div class="au d2" style="display:flex;gap:28px;align-items:baseline;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.08);">
+        <span style="font-size: 18px; font-weight: 300; opacity: 0.35; width: 40px; flex-shrink: 0; letter-spacing: 0.06em;">02</span>
+        <div>
+          <div style="font-size: 28px; font-weight: 400;">Build</div>
+          <div style="font-size: 21px; font-weight: 300; opacity: 0.4; margin-top: 5px;">Ship one effective workflow</div>
+        </div>
+      </div>
+      <div class="au d3" style="display:flex;gap:28px;align-items:baseline;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.08);">
+        <span style="font-size: 18px; font-weight: 300; opacity: 0.35; width: 40px; flex-shrink: 0; letter-spacing: 0.06em;">03</span>
+        <div>
+          <div style="font-size: 28px; font-weight: 400;">AI Company Policy V 0.1</div>
+          <div style="font-size: 21px; font-weight: 300; opacity: 0.4; margin-top: 5px;">The first baseline every cohort extends</div>
+        </div>
+      </div>
+      <div class="au d4" style="display:flex;gap:28px;align-items:baseline;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.08);">
+        <span style="font-size: 18px; font-weight: 300; opacity: 0.35; width: 40px; flex-shrink: 0; letter-spacing: 0.06em;">04</span>
+        <div>
+          <div style="font-size: 28px; font-weight: 400;">Program Alignment</div>
+          <div style="font-size: 21px; font-weight: 300; opacity: 0.4; margin-top: 5px;">Cohort sequence, tooling, participants and KPIs</div>
+        </div>
+      </div>
+      <div class="au d5" style="display:flex;gap:28px;align-items:baseline;padding:22px 0;">
+        <span style="font-size: 18px; font-weight: 300; opacity: 0.35; width: 40px; flex-shrink: 0; letter-spacing: 0.06em;">05</span>
+        <div>
+          <div style="font-size: 28px; font-weight: 400;">First Feedback Loop</div>
+          <div style="font-size: 21px; font-weight: 300; opacity: 0.4; margin-top: 5px;">Lessons learned and first company harness build</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     03 - WORKFLOWS & BUILD (two columns, hairline divider)
+════════════════════════════════════════════════════════ -->
+<section class="t-cream" data-label="F1.1 - Workflows &amp; Build" data-screen-label="03 F1.1 - Workflows &amp; Build" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="2">
+  <div class="grain"></div>
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 6% 8%, rgba(155,143,212,.13), transparent 42%);"></div>
+  <div class="inner mid">
+    <div style="display:grid;grid-template-columns:1.45fr 1px 1fr;gap:64px;align-items:flex-start;">
+
+      <!-- WORKFLOWS -->
+      <div style="display:flex;flex-direction:column;">
+        <div class="au ey warm" style="font-size: 26px; margin-bottom: 30px;">Workflows</div>
+        <div class="au d1" style="display:flex;gap:22px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--ink-100);">
+          <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">01</span>
+          <div style="font-size: 24px; font-weight: 300; color: var(--ink-700); line-height: 1.6;">Interview: Workflows, tools, frictions; Rituals and ways of making decisions; Current baseline (time, quality, cognitive load); How AI changes your role - concerns and expectations</div>
+        </div>
+        <div class="au d2" style="display:flex;gap:22px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--ink-100);">
+          <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">02</span>
+          <div style="font-size: 24px; font-weight: 300; color: var(--ink-700); line-height: 1.6;">
+            <div style="">Map Dejan's critical workflows. Identify candidates for automated, augmented and agentic flows. Prioritize based on:</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:16px;">
+              <div style="font-size: 21px; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">Time - to - value</div>
+              <div style="font-size: 21px; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">Repeatability</div>
+              <div style="font-size: 21px; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">Impact vs Recoverability (blast radius)</div>
+              <div style="font-size: 21px; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">Data readiness for regular execution and eval set</div>
+            </div>
+          </div>
+        </div>
+        <div class="au d3" style="display:flex;gap:22px;align-items:baseline;padding:22px 0;">
+          <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">03</span>
+          <div style="font-size: 24px; font-weight: 300; color: var(--ink-700); line-height: 1.6;">Safe-proof selected workflows to guardrail their autonomy and fail modes</div>
+        </div>
+      </div>
+
+      <!-- hairline divider -->
+      <div style="background:var(--ink-100);width:1px;align-self:stretch;"></div>
+
+      <!-- BUILD -->
+      <div style="display:flex;flex-direction:column;">
+        <div class="au d2 ey warm" style="font-size: 26px; margin-bottom: 30px;">Build</div>
+        <div class="au d3" style="display:flex;gap:16px;align-items:flex-start;font-size:24px;font-weight:300;color:var(--ink-700);line-height:1.6;margin-bottom:26px;">
+          <span style="color: var(--coral-deep); flex-shrink: 0; line-height: 1.4;">·</span>
+          <span style="">Build selected workflow in Claude Managed Agents / Claude Agent SDK environment and adjacent tools</span>
+        </div>
+        <div class="au d4" style="display:flex;gap:16px;align-items:flex-start;font-size:24px;font-weight:300;color:var(--ink-700);line-height:1.6;">
+          <span style="color: var(--coral-deep); flex-shrink: 0; line-height: 1.4;">·</span>
+          <div style="flex:1;">
+            <div style="">Administration:</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:16px;">
+              <div style="font-size: 21px; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">Name the workflow owner</div>
+              <div style="font-size: 21px; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">Drift alarm</div>
+              <div style="font-size: 21px; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">Quarterly sunset review schedule</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     04 - AI COMPANY LEVEL POLICY V0.1
+════════════════════════════════════════════════════════ -->
+<section class="t-cream" data-label="F2.1 - Policy V0.1" data-screen-label="04 F2.1 - Policy V0.1" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="3">
+  <div class="grain"></div>
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 96% 8%, rgba(255,176,136,.15), transparent 44%);"></div>
+  <div class="inner" style="flex-direction:row;gap:80px;align-items:center;">
+    <div style="flex:0 0 400px;">
+      <div class="au ey warm" style="">AI Company Level Policy</div>
+      <p class="au d1" style="font-size: 25px; font-weight: 300; color: var(--ink-700); line-height: 1.6; margin: 0px;">These are specific policies for all AI usage at Recombo. The policy would have it's baseline and each cohort would extend it with real cases</p>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:0;">
+      <div class="au d1" style="display:flex;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">01</span>
+        <div style="font-size: 23px; font-weight: 300; color: var(--ink-700); line-height: 1.55;">Align on general voice and tone &amp; broad go/no-go zones for the first cohort according to existing security and compliance policy</div>
+      </div>
+      <div class="au d2" style="display:flex;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">02</span>
+        <div style="font-size: 23px; font-weight: 300; color: var(--ink-700); line-height: 1.55;">Clause about department autonomy = Which decisions are company level rules, and which can be brought on departments' discretion ?</div>
+      </div>
+      <div class="au d3" style="display:flex;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">03</span>
+        <div style="font-size: 23px; font-weight: 300; color: var(--ink-700); line-height: 1.55;">Data type classification and tool-based guardrails</div>
+      </div>
+      <div class="au d4" style="display:flex;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">04</span>
+        <div style="font-size: 23px; font-weight: 300; color: var(--ink-700); line-height: 1.55;">Risk x Autonomy rubric answering the question = Which level of autonomy is a workflow allowed to have, based on it's data usage and type of execution ?</div>
+      </div>
+      <div class="au d5" style="display:flex;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">05</span>
+        <div style="font-size: 23px; font-weight: 300; color: var(--ink-700); line-height: 1.55;">Default audit and traceability requirements for Managed Agents setup</div>
+      </div>
+      <div class="au d6" style="display:flex;gap:24px;align-items:baseline;padding:28px 0;">
+        <span style="font-size: 22px; font-weight: 400; color: var(--coral); width: 36px; flex-shrink: 0;">06</span>
+        <div style="font-size: 23px; font-weight: 300; color: var(--ink-700); line-height: 1.55;">Cost management (per workflow, per AI decision) tooling and basic setup for Dejan's workflows</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     05 - AI LEADERSHIP PROGRAM ALIGNMENT (with sunrise shape)
+════════════════════════════════════════════════════════ -->
+<section class="t-cream" data-label="F3.1 - Program Alignment" data-screen-label="05 F3.1 - Program Alignment" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="4">
+  <div class="grain"></div>
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;right:-220px;bottom:-300px;width:760px;height:760px;border-radius:50%;border:1px solid var(--ink-200);"></div>
+    <div style="position:absolute;right:-120px;bottom:-200px;width:560px;height:560px;border-radius:50%;border:1px solid var(--ink-100);"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(circle at 90% 88%, rgba(255,176,136,.20), transparent 44%);"></div>
+  </div>
+  <div class="inner" style="flex-direction:row;gap:80px;align-items:center;">
+    <div style="flex:0 0 400px;">
+      <div class="au ey warm" style="">AI Leadership Program Alignment</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:0;">
+      <div class="au d1" style="display:flex;gap:26px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 34px; line-height: 1;">·</span>
+        <div style="font-size: 27px; font-weight: 300; color: var(--navy); line-height: 1.5;">Cohort sequence and first cohort selection based on given criteria (builders, influencers, workflow complementariness)</div>
+      </div>
+      <div class="au d2" style="display:flex;gap:26px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 34px; line-height: 1;">·</span>
+        <div style="font-size: 27px; font-weight: 300; color: var(--navy); line-height: 1.5;">Tooling</div>
+      </div>
+      <div class="au d3" style="display:flex;gap:26px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 34px; line-height: 1;">·</span>
+        <div style="font-size: 27px; font-weight: 300; color: var(--navy); line-height: 1.5;">KPIs</div>
+      </div>
+      <div class="au d4" style="display:flex;gap:26px;align-items:baseline;padding:30px 0;">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 34px; line-height: 1;">·</span>
+        <div style="font-size: 27px; font-weight: 300; color: var(--navy); line-height: 1.5;">Program time allocation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     06 - FIRST FEEDBACK LOOP (centred, calm list)
+════════════════════════════════════════════════════════ -->
+<section class="t-cream" data-label="F4.1 - First Feedback Loop" data-screen-label="06 F4.1 - First Feedback Loop" data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text" data-deck-slide="5" data-deck-last-visible="">
+  <div class="grain"></div>
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(155deg, transparent 40%, rgba(255,176,136,.16) 80%, rgba(184,174,230,.17) 100%);"></div>
+  <div class="inner" style="flex-direction:row;gap:80px;align-items:center;">
+    <div style="flex:0 0 380px;">
+      <div class="au ey warm" style="">First Feedback Loop</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:0;">
+      <div class="au d1" style="display:flex;gap:26px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 30px; line-height: 1;">·</span>
+        <div style="font-size: 25px; font-weight: 300; color: var(--navy); line-height: 1.55;">Frictions faced in Fast track program as lessons learned for wider cohort</div>
+      </div>
+      <div class="au d2" style="display:flex;gap:26px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 30px; line-height: 1;">·</span>
+        <div style="font-size: 25px; font-weight: 300; color: var(--navy); line-height: 1.55;">Pre-mortem risk mapping exercise</div>
+      </div>
+      <div class="au d3" style="display:flex;gap:26px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--ink-100);">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 30px; line-height: 1;">·</span>
+        <div style="font-size: 25px; font-weight: 300; color: var(--navy); line-height: 1.55;">
+          <div style="">If first built workflow executes successfully 2,3 times it gets coded into company harness as it's first entry</div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-top:16px;">
+            <div style="font-size: 22px; font-weight: 300; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">skill name, context files (sources, rules, voice &amp; tone, when to use)</div>
+            <div style="font-size: 22px; font-weight: 300; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">golden eval set</div>
+            <div style="font-size: 22px; font-weight: 300; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">harness level: manager/executive</div>
+            <div style="font-size: 22px; font-weight: 300; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">metadata: owner, cost per decision</div>
+            <div style="font-size: 22px; font-weight: 300; color: var(--ink-500); line-height: 1.5; padding-left: 16px; border-left-width: 2px; border-left-style: solid; border-left-color: rgba(242, 112, 89, 0.3);">become first ingest into Program memory</div>
+          </div>
+        </div>
+      </div>
+      <div class="au d4" style="display:flex;gap:26px;align-items:baseline;padding:26px 0;">
+        <span style="color: var(--coral-deep); flex-shrink: 0; font-size: 30px; line-height: 1;">·</span>
+        <div style="font-size: 25px; font-weight: 300; color: var(--navy); line-height: 1.55;">Extend the V0 Policy with learned cases from Fast track</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</deck-stage>
+<script src="deck-stage.js"></script>
+<script>
+(function () {
+  let editing = false;
+  let reordering = false;
+  let fileHandle = null;
+
+  /* ── IndexedDB helpers ── */
+  const DB_NAME = 'deck-edit-fasttrack', STORE = 'handles';
+  function openDB() {
+    return new Promise((res, rej) => {
+      const r = indexedDB.open(DB_NAME, 1);
+      r.onupgradeneeded = e => e.target.result.createObjectStore(STORE);
+      r.onsuccess = e => res(e.target.result);
+      r.onerror = rej;
+    });
+  }
+  async function loadHandle() {
+    try {
+      const db = await openDB();
+      return await new Promise(res => {
+        const r = db.transaction(STORE).objectStore(STORE).get('fh');
+        r.onsuccess = () => res(r.result || null);
+        r.onerror = () => res(null);
+      });
+    } catch { return null; }
+  }
+  async function storeHandle(h) {
+    try {
+      const db = await openDB();
+      await new Promise(res => {
+        const tx = db.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).put(h, 'fh');
+        tx.oncomplete = res;
+      });
+    } catch { /* non-fatal */ }
+  }
+
+  /* restore persisted handle on load */
+  loadHandle().then(h => { if (h) fileHandle = h; });
+
+  /* ── UI ── */
+  const wrap = document.createElement('div');
+  wrap.id = 'deck-editor-toolbar';
+  wrap.style.cssText = 'position:fixed;bottom:22px;right:22px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:6px;';
+
+  const btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;flex-direction:row;align-items:center;gap:6px;';
+
+  const saveBtn    = document.createElement('button');
+  const editBtn    = document.createElement('button');
+  const reorderBtn = document.createElement('button');
+
+  const base = 'font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:5px 12px;cursor:pointer;transition:opacity .15s,background .15s;border:none;';
+  saveBtn.style.cssText    = base + 'background:rgba(242,112,89,.9);color:#fff;display:none;';
+  editBtn.style.cssText    = base + 'background:rgba(20,30,44,.55);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1);';
+  reorderBtn.style.cssText = base + 'background:rgba(20,30,44,.55);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1);';
+
+  saveBtn.textContent    = 'Save';
+  editBtn.textContent    = 'Edit';
+  reorderBtn.textContent = 'Reorder';
+
+  btnRow.append(reorderBtn, editBtn, saveBtn);
+  wrap.appendChild(btnRow);
+  document.body.appendChild(wrap);
+
+  editBtn.onclick    = toggle;
+  saveBtn.onclick    = saveHTML;
+  reorderBtn.onclick = toggleReorder;
+
+  document.addEventListener('keydown', e => {
+    if (e.key.toLowerCase() !== 'e' || e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = document.activeElement;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    toggle();
+  });
+
+  /* ── editable elements ── */
+  function editables() {
+    const seen = new Set(), out = [];
+    document.querySelectorAll('section').forEach(s => {
+      s.querySelectorAll('h1, h2, p').forEach(add);
+      s.querySelectorAll('div, span').forEach(el => {
+        if (el.childElementCount === 0 && el.textContent.trim()) add(el);
+      });
+    });
+    function add(el) { if (!seen.has(el)) { seen.add(el); out.push(el); } }
+    return out;
+  }
+
+  function toggle() {
+    editing = !editing;
+    editBtn.textContent      = editing ? 'Done' : 'Edit';
+    editBtn.style.background = editing ? 'rgba(242,112,89,.9)' : 'rgba(20,30,44,.55)';
+    editBtn.style.color      = '#fff';
+    saveBtn.style.display    = editing ? 'block' : 'none';
+    editables().forEach(el => {
+      el.contentEditable    = editing ? 'true' : 'inherit';
+      el.style.outline      = editing ? '1px dashed rgba(242,112,89,.45)' : '';
+      el.style.borderRadius = editing ? '3px' : '';
+    });
+  }
+
+  function stripEditing() {
+    editables().forEach(el => {
+      el.removeAttribute('contenteditable');
+      el.style.outline = el.style.borderRadius = '';
+    });
+    editBtn.textContent      = 'Edit';
+    editBtn.style.background = 'rgba(20,30,44,.55)';
+    editBtn.style.color      = 'rgba(255,255,255,.7)';
+    saveBtn.style.display    = 'none';
+    editing = false;
+  }
+
+  /* ── reorder panel ── */
+  let panel = null;
+  let dragSrc = null;
+
+  function buildPanel() {
+    if (panel) { panel.remove(); panel = null; }
+    panel = document.createElement('div');
+    panel.style.cssText = [
+      'background:rgba(14,20,30,.92)',
+      'border:1px solid rgba(255,255,255,.1)',
+      'border-radius:10px',
+      'padding:8px 6px',
+      'min-width:280px',
+      'max-height:460px',
+      'overflow-y:auto',
+      'display:flex',
+      'flex-direction:column',
+      'gap:2px',
+    ].join(';');
+
+    document.querySelectorAll('section[data-label]').forEach(sec => {
+      const label = sec.getAttribute('data-label') || '?';
+      const row = document.createElement('div');
+      row.draggable = true;
+      row.dataset.label = label;
+      row.style.cssText = [
+        'display:flex',
+        'align-items:center',
+        'gap:8px',
+        'padding:5px 8px',
+        'border-radius:6px',
+        'cursor:grab',
+        'color:rgba(255,255,255,.75)',
+        'font-family:inherit',
+        'font-size:11px',
+        'font-weight:500',
+        'letter-spacing:.04em',
+        'user-select:none',
+        'transition:background .1s',
+      ].join(';');
+
+      const grip = document.createElement('span');
+      grip.textContent = '⠿';
+      grip.style.cssText = 'color:rgba(255,255,255,.25);font-size:13px;line-height:1;flex-shrink:0;';
+
+      const lbl = document.createElement('span');
+      lbl.textContent = label;
+
+      row.append(grip, lbl);
+
+      row.addEventListener('mouseenter', () => { row.style.background = 'rgba(255,255,255,.07)'; });
+      row.addEventListener('mouseleave', () => { row.style.background = ''; });
+
+      row.addEventListener('dragstart', e => {
+        dragSrc = row;
+        e.dataTransfer.effectAllowed = 'move';
+        setTimeout(() => { row.style.opacity = '.4'; }, 0);
+      });
+      row.addEventListener('dragend', () => { row.style.opacity = ''; dragSrc = null; });
+
+      row.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        if (dragSrc && dragSrc !== row) {
+          row.style.borderTop = '2px solid rgba(242,112,89,.8)';
+        }
+      });
+      row.addEventListener('dragleave', () => { row.style.borderTop = ''; });
+
+      row.addEventListener('drop', e => {
+        e.preventDefault();
+        row.style.borderTop = '';
+        if (!dragSrc || dragSrc === row) return;
+
+        panel.insertBefore(dragSrc, row);
+
+        const srcLabel = dragSrc.dataset.label;
+        const tgtLabel = row.dataset.label;
+        const srcSec   = document.querySelector(`section[data-label="${CSS.escape(srcLabel)}"]`);
+        const tgtSec   = document.querySelector(`section[data-label="${CSS.escape(tgtLabel)}"]`);
+        if (srcSec && tgtSec && srcSec !== tgtSec) {
+          tgtSec.parentNode.insertBefore(srcSec, tgtSec);
+        }
+      });
+
+      panel.appendChild(row);
+    });
+
+    wrap.insertBefore(panel, btnRow);
+  }
+
+  function toggleReorder() {
+    reordering = !reordering;
+    reorderBtn.textContent      = reordering ? 'Done' : 'Reorder';
+    reorderBtn.style.background = reordering ? 'rgba(242,112,89,.9)' : 'rgba(20,30,44,.55)';
+    reorderBtn.style.color      = reordering ? '#fff' : 'rgba(255,255,255,.7)';
+    saveBtn.style.display       = (reordering || editing) ? 'block' : 'none';
+    if (reordering) {
+      buildPanel();
+    } else {
+      if (panel) { panel.remove(); panel = null; }
+    }
+  }
+
+  /* ── save ── */
+  async function saveHTML() {
+    stripEditing();
+    if (reordering) {
+      reordering = false;
+      reorderBtn.textContent      = 'Reorder';
+      reorderBtn.style.background = 'rgba(20,30,44,.55)';
+      reorderBtn.style.color      = 'rgba(255,255,255,.7)';
+      if (panel) { panel.remove(); panel = null; }
+    }
+
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+
+    try {
+      if (fileHandle) {
+        const perm = await fileHandle.requestPermission({ mode: 'readwrite' });
+        if (perm !== 'granted') fileHandle = null;
+      }
+      if (!fileHandle) {
+        fileHandle = await window.showSaveFilePicker({
+          suggestedName: location.pathname.split('/').pop(),
+          types: [{ description: 'HTML', accept: { 'text/html': ['.html'] } }]
+        });
+        await storeHandle(fileHandle);
+      }
+      const writable = await fileHandle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      flash('Saved ✓');
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      const a = Object.assign(document.createElement('a'), {
+        href: URL.createObjectURL(blob),
+        download: location.pathname.split('/').pop()
+      });
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }
+  }
+
+  function flash(msg) {
+    const f = document.createElement('div');
+    f.textContent = msg;
+    f.style.cssText = 'position:fixed;bottom:22px;right:22px;z-index:10000;font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;background:rgba(20,30,44,.85);color:#fff;padding:5px 12px;border-radius:6px;pointer-events:none;transition:opacity .4s;';
+    document.body.appendChild(f);
+    setTimeout(() => { f.style.opacity = '0'; setTimeout(() => f.remove(), 400); }, 1400);
+  }
+})();
+</script><div id="deck-editor-toolbar" style="position: fixed; bottom: 22px; right: 22px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;"><div style="display: flex; flex-direction: row; align-items: center; gap: 6px;"><button style="font-family: inherit; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 6px; padding: 5px 12px; cursor: pointer; transition: opacity 0.15s, background 0.15s; background: rgba(20, 30, 44, 0.55); color: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">Reorder</button><button style="font-family: inherit; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 6px; padding: 5px 12px; cursor: pointer; transition: opacity 0.15s, background 0.15s; background: rgba(20, 30, 44, 0.55); color: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">Edit</button><button style="font-family: inherit; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 6px; padding: 5px 12px; cursor: pointer; transition: opacity 0.15s, background 0.15s; border: medium; background: rgba(242, 112, 89, 0.9); color: rgb(255, 255, 255); display: none;">Save</button></div></div>
+
+</body></html>
